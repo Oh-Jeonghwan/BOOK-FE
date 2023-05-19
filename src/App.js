@@ -9,6 +9,10 @@ import LoginForm from "./pages/user/LoginForm";
 import JoinForm from "./pages/user/JoinForm";
 import UpdateForm from "./pages/book/UpdateForm";
 
+
+//0.React 엔진 - 데이터 변경감지에서 UI그려주는
+//1.실행과정(index.html) - spa
+//2.JSX문법
 function App() {
   return(
     <div>
