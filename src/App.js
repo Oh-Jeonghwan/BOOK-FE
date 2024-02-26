@@ -19,7 +19,8 @@ function App() {
       <Header></Header>
       <Container>
         <Routes>
-          <Route path="/" exact={true} element={<Home/>}/>
+          <Route path="/" exact={true} element={<LoginForm/>}/>
+          <Route path="/home" exact={true} element={<Home/>}/>
           <Route path="/saveForm" exact={true} element={<SaveForm/>}/>
           <Route path="/book/:id" exact={true} element={<Detail/>}/>
           <Route path="/loginForm" exact={true} element={<LoginForm/>}/>

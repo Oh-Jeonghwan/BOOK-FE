@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import {Form, Button} from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
+import customAxios from '../../common/customAxios';
 
 const UpdateForm = () => {
     const [book,setBook] = useState({
         title:'',
         author:''
     });
+
     const {id} = useParams();
+
+    const navigate = useNavigate();
+
+    let {title,author} = book;
+    
     useEffect(()=>{
-        fetch("http://localhost:8081/book/"+id,{
-            method:"GET"
-        }).then(res=>res.json()).then(res=>{
-            setBook(res);
-        });
+        callBook();
     },[]);
 
     const changeValue = (e)=>{
@@ -25,25 +28,24 @@ const UpdateForm = () => {
 
     const submitBook = (e) =>{
         e.preventDefault();
-        fetch("http://localhost:8081/book/"+id,{
-            method: "PUT",
-            headers:{
-                "Content-Type":"application/json; charset=utf-8"
-            },
-            body:JSON.stringify(book)
+        editBook();
+    }
+
+    const callBook = ()=>{
+        customAxios.get("/book/"+id,{
         }).then(res=>{
-            console.log(1,res);
-            if(res.status === 200){
-                return res.json();
-            } else {
-                return null;
-            }
-            
+            setBook(res.data);
+        });
+    }
+
+    const editBook = () =>{
+        customAxios.put("/book/"+id,{
+            title,author
         }).then(res=>{
-            console.log(2,res);
-            if(res!==null){
+            console.log(2,res.data);
+            if(res.data!==null){
                 setBook([]);
-                window.location.href = 'http://localhost:3000';
+                navigate('/home');
                 //props.history.push('/');
             
             }else {
@@ -53,7 +55,7 @@ const UpdateForm = () => {
         // .catch((error)=>{    then에서 실패했을 때 작동, 백단에서 에러를 날려도 실행 안 된다.
         //     console.error(error);
         // })
-    }
+    };
 
         return (
             <div>

@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { useParams,useNavigate } from 'react-router-dom';
+import customAxios from '../../common/customAxios';
 
 const Detail = (props) => {
+
+  const navigate = useNavigate();
 
   //const id = props.match.params.id; //이전 페이지에서 보내주는 파라미터값을 받는 역할???? 
   const {id} = useParams();
@@ -11,28 +14,31 @@ const Detail = (props) => {
     title:'',
     author:''
   });
-  const navigate = useNavigate();
+  
   useEffect(()=>{
-    fetch("http://localhost:8081/book/"+id,{
-      method:"GET"
-    }).then(res=>res.json()).then(res=>{
-      setBook(res);//insert나 update가 아니라 새로운 객체를 불러와주는 것이기 때문에 복사가 필요 없다. 
+    bookDetail();
+  },[])
+
+  const bookDetail=()=>{
+    customAxios.get("/book/"+id,{
+    }).then(res=>{
+      setBook(res.data);//insert나 update가 아니라 새로운 객체를 불러와주는 것이기 때문에 복사가 필요 없다. 
       /*book.title = 'aseeee'
         setBook(book) 상태값 안 바뀐다.(같은 객체라서)
         setBook(...book) 이래야 상태값 바뀐다.*/
     });
-  },[])
+  }
+
   const deleteBook = () => {
-    fetch("http://localhost:8081/book/"+id,{
-      method:"DELETE"
-    }).then(res=>res.text()).then(res=>{
-      if(res==="OK"){
+    customAxios.delete("/book/"+id,{
+    }).then(res=>{
+      if(res.data==="OK"){
         alert("삭제 성공");
-        window.location.href = 'http://localhost:3000';
+        navigate('/home');
       }else {
         alert("삭제 실패");
       }
-  })
+    })
   }
   const updateBook = () =>{
     navigate("/editForm/"+id);

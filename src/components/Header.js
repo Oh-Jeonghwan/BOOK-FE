@@ -6,7 +6,7 @@ const Header = () => {
     return (
         <>
           <Navbar bg="primary" variant="dark">
-            <Link to="/" className='navbar-brand'>home</Link>
+            <Link to="/home" className='navbar-brand'>home</Link>
             <Nav className="me-auto">
               {/* <Nav.Link href="#home">글쓰기</Nav.Link>
               <Nav.Link href="#features">Features</Nav.Link>
